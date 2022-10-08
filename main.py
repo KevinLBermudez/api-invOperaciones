@@ -3,6 +3,9 @@ from objects.data import (surround_in_array)
 from modules import decisions
 from fastapi.middleware.cors import CORSMiddleware
 from objects.body import Body
+from objects.body import BodyGames
+from modules import games
+
 
 app = FastAPI()
 
@@ -23,3 +26,15 @@ def get_decision(body: Body):
     )
 
     return results
+
+@app.post("/games")
+
+def get_games(body: BodyGames):
+
+    results = games.get_teory(
+        data  = surround_in_array(body.dict()["matrix"])
+    )
+
+    return results
+
+

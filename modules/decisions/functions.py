@@ -53,8 +53,6 @@ def probabilities_of_ocurrence(depends_prob, state_prob, success_or_fail_prob):
 
     return probs
 
-
-
 def interact_and_concat(arr, transform):
     new_arr = np.array([])
     for element in arr:
