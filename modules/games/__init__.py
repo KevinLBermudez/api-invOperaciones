@@ -6,10 +6,12 @@ def get_teory(data):
     miniumByRow = games.minRow(data)
     maxiumByColumn = games.maxColumn(data)
     chairPoint = games.chairPoint(miniumByRow,maxiumByColumn)
+    matrixProbability = games.matrixProbability(data)
 
     return {
 
         "minimo por fila" : miniumByRow.tolist(),
         "maximo por columna" : maxiumByColumn.tolist(),
-        "punto de silla" : chairPoint
+        "punto de silla" : chairPoint,
+        "matrix de probabilidades" : matrixProbability.tolist()
     }
