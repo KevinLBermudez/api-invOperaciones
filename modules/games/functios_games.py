@@ -19,9 +19,8 @@ def chairPoint(row,column):
 
     for i in row:
         for j in column:
-            if i == j:
-                chairPoints.append([i,row.tolist().index(i),column.tolist().index(j)])
-    
+            if j==i:
+                chairPoints.append([i,j])
     return chairPoints
 
 
@@ -95,7 +94,7 @@ def matrixProbability(matrix):
 
 
 def equations(matrix):
-    
+
     p = Symbol('p')
 
     eq1 = matrix[0, 0]*p + matrix[1, 0] * (1-p)
