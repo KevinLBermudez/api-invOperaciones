@@ -11,10 +11,16 @@ def get_teory(alternatives, probabilities, dependsProbabilities):
 
     awaited_value = decisions.evidences(np.array([[opt.max(), cons.max()]]), probabilities)[0]
 
+    print("-----------------")
+    print(awaited_value)
+    print(evidences.max())
+    print("-----------------")
+
     vea = awaited_value - evidences.max()
 
+
+
     evidences_with_max_regret = decisions.evidences(max_regret, probabilities)
-    print(evidences_with_max_regret)
 
     probability_success = decisions.evidence(probabilities[0], probabilities[1], dependsProbabilities[0, 0], dependsProbabilities[1, 0])
 
@@ -47,8 +53,6 @@ def get_teory(alternatives, probabilities, dependsProbabilities):
     for alt in alternatives:
         chart_points.append(decisions.get_point(alt[0], alt[1]))
         
-    print(chart_points)
-
     return {
         "optimista": opt.tolist(),
         "conservador": cons.tolist(),

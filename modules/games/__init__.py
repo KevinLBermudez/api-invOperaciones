@@ -18,3 +18,6 @@ def get_teory(data):
         "matrixProbabilidades" : matrixProbability.tolist(),
         "ecuaciones": equations
     }
+
+
+
