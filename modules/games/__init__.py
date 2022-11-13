@@ -9,19 +9,22 @@ def get_teory(data):
     miniumByRow = games.minRow(data)
     maxiumByColumn = games.maxColumn(data)
     chairPoint = games.chairPoint(miniumByRow, maxiumByColumn)
-    print(len(chairPoint))
+
     if len(chairPoint) < 1:
 
         matrixProbability = games.matrixProbability(data)
-        equations = games.equations(matrixProbability)
-
+        if(matrixProbability != -1):
+            
+            equations = games.equations(matrixProbability)
+        else:
+            equations = -1
     return {
 
         "minimoPorFila": miniumByRow.tolist(),
         "maximoPorColumna": maxiumByColumn.tolist(),
         "puntoDeSilla": chairPoint,
         # "matrixProbabilidades" : matrixProbability.tolist(),
-        "matrixProbabilidades": None if matrixProbability is None else matrixProbability.toList(),
+        "matrixProbabilidades": None if matrixProbability is None else matrixProbability,
         #"ecuaciones": equations
         "ecuaciones": None if equations is None else equations
 
