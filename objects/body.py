@@ -7,3 +7,23 @@ class Body(BaseModel):
 
 class BodyGames(BaseModel):
     matrix: list[list[float]] = []
+
+class BodyQueues(BaseModel):
+    numberServices: int 
+    averageArrivals: float = 0
+    averageServices: float = 0
+
+
+class BodyQueuesProbabilities(BaseModel):
+    numberServices: int
+    averageArrivals: float = 0
+    averageServices: float = 0
+    n: int
+
+class BodyEconomicAnalysis(BaseModel):
+
+    costAverageByService : float
+    hoursServiceByDay : int
+    numberServices: int
+    averageArrivals: float = 0
+    averageServices: float = 0

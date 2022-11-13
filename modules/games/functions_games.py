@@ -1,6 +1,6 @@
 import numpy as np
 import sympy as sym
-from sympy import symbols, Eq, solve, Symbol
+from sympy import  Symbol
 from sympy import *
 
 def minRow(matrix):
