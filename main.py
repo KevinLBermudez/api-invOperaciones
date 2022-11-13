@@ -1,10 +1,8 @@
 from fastapi import FastAPI
-from objects.data import (surround_in_array)
-from modules import decisions
 from fastapi.middleware.cors import CORSMiddleware
-from objects.body import Body
-from objects.body import BodyGames
-from modules import games
+from modules import decisions, games, queues
+from objects.data import (surround_in_array)
+from objects.body import Body, BodyEconomicAnalysis, BodyQueuesProbabilities, BodyGames, BodyQueues
 
 
 app = FastAPI()
@@ -38,3 +36,25 @@ def get_games(body: BodyGames):
     return results
 
 
+@app.post("/queues")
+
+def get_queues(body: BodyQueues):
+
+    results = queues.get_teory(body);
+
+    return results
+
+@app.post("/queues/pn")
+def get_queues(body: BodyQueuesProbabilities):
+
+    results = queues.calculateProbabilities(body);
+
+    return results
+
+@app.post("/queues/economicAnalysis")
+
+def get_economic_analysis(body: BodyEconomicAnalysis):
+
+    results = queues.get_teory_analysis_economic(body)
+
+    return results

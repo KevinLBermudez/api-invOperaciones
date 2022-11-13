@@ -1,6 +1,7 @@
+from os import error
 import numpy as np
 import sympy as sym
-from sympy import symbols, Eq, solve, Symbol
+from sympy import  Symbol
 from sympy import *
 
 def minRow(matrix):
@@ -19,8 +20,9 @@ def chairPoint(row,column):
 
     for i in row:
         for j in column:
-            if j==i:
-                chairPoints.append([i,j])
+            if i == j:
+                chairPoints.append([i, row.tolist().index(i), column.tolist().index(j)])
+
     return chairPoints
 
 
@@ -85,10 +87,12 @@ def matrixProbability(matrix):
             else:
                 contador += 1
 
-        print(contador)
 
         if (contador > x):
             flagCicle = True
+
+        if (np.shape(matrix) != (2,2)):
+            return -1
 
     return matrix
 
