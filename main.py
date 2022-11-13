@@ -1,4 +1,5 @@
-from fastapi import FastAPI
+from os import error
+from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from modules import decisions, games, queues
 from objects.data import (surround_in_array)
@@ -42,13 +43,20 @@ def get_queues(body: BodyQueues):
 
     results = queues.get_teory(body);
 
+
+    if( "error" in results):
+
+        raise HTTPException(status_code=400, detail=results["error"])
+
     return results
 
 @app.post("/queues/pn")
 def get_queues(body: BodyQueuesProbabilities):
 
     results = queues.calculateProbabilities(body);
-
+    if ("error" in results):
+        raise HTTPException(status_code=400, detail=results["error"])
+    
     return results
 
 @app.post("/queues/economicAnalysis")
@@ -57,4 +65,7 @@ def get_economic_analysis(body: BodyEconomicAnalysis):
 
     results = queues.get_teory_analysis_economic(body)
 
+    if ("error" in results):
+        raise HTTPException(status_code=400, detail=results["error"])
+    
     return results

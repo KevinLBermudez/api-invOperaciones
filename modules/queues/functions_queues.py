@@ -134,6 +134,8 @@ class EconomicAnalysis():
     def costDailyVariousService(self):
         
         result = self.costAverageByService * self.hoursServiceByDay * self.medLambda * self.numberServices
-
+        
         return result
+
+    
     

@@ -4,8 +4,9 @@ from sympy import *
 def get_teory(data):
 
     if(data.averageArrivals > data.averageServices):
+        
         return {
-            "message": "The average arrivals must be less than the average services"
+            "error": "The average arrivals must be less than the average services"
         }
 
     operations = queues.VariousService(data)
@@ -40,7 +41,7 @@ def get_teory_analysis_economic(data):
     
     if (data.averageArrivals > data.averageServices):
         return {
-            "message": "The average arrivals must be less than the average services"
+            "error": "The average arrivals must be less than the average services"
         }
 
     economic = queues.EconomicAnalysis(data)
@@ -52,9 +53,8 @@ def get_teory_analysis_economic(data):
     else:
         dailyCost = economic.costDailyVariousService()
     
-
     return{
-
+        
         "dailyCost": dailyCost
     }
 
@@ -63,7 +63,7 @@ def calculateProbabilities(data):
 
     if(data.averageArrivals > data.averageServices):
         return {
-            "message": "The average arrivals must be less than the average services"
+            "error": "The average arrivals must be less than the average services"
         }
 
     operations = queues.VariousService(data)
