@@ -32,68 +32,83 @@ def matrixProbability(matrix):
     flagColumn = False
     flagCicle = False
     contador = 0 
-    x = 4
+    x = 5
     
     print(matrix)
 
     while flagCicle == False:
 
+            dimensions = matrix.shape
+            rows = np.arange(dimensions[0])
+            columns = np.arange(dimensions[1])
 
-        dimensions = matrix.shape
-        rows = np.arange(dimensions[0])
-        columns = np.arange(dimensions[1])
+            if (flagRow == False):
+                for i in rows:
+                    if (flagRow == False):
+                        for j in rows:
+                            if (set(matrix[i, ]) != set(matrix[j, ])):
+                                c = np.less_equal(matrix[i, ], matrix[j, ])
+                                all_are_true = all(x == True for x in c)
 
-        if (flagRow == False):
-            for i in rows:
-                if (flagRow == False):
-                    for j in rows:
-                        if (set(matrix[i, ]) != set(matrix[j, ])):
-                            c = np.less_equal(matrix[i, ], matrix[j, ])
-                            all_are_true = all(x == True for x in c)
-                            if all_are_true:
-                                matrix = np.delete(matrix, (i), axis=0)
-                                print("-----------------")
-                                print("se elimino la fila: ", i+1)
-                                print(matrix)
-                                flagColumn = False
-                                flagRow = True
-                                break
-                            else:
-                                flagRow = False
-            else:
-                contador += 1
-                
-        dimensions = matrix.shape
-        rows = np.arange(dimensions[0])
-        columns = np.arange(dimensions[1])
+                                print(matrix[j, ], "no elimino  a ", matrix[i, ])
 
-        if (flagColumn == False):
-            for i in columns:
-                if (flagColumn == False):
-                    for j in columns:
-                        if (set(matrix[:, i]) != set(matrix[:, j])):
-                            c = np.greater(matrix[:, i], matrix[:, j])
-                            all_are_true = all(x == True for x in c)
-                            if all_are_true:
-                                matrix = np.delete(matrix, (i), axis=1)
-                                print("-----------------")
-                                print("se elimino la columna: ", i+1)
-                                print(matrix)
-                                flagRow = False
-                                flagColumn = True
-                                break
-                            else:
-                                flagColumn = False
-            else:
-                contador += 1
+                                if all_are_true:
+                                    print(matrix[j, ], "elimino a ",matrix[i, ])
+
+                                    matrix = np.delete(matrix, (i), axis=0)
+                                    print("-----------------")
+                                    print("se elimino la fila: ", i+1)
+                                    print(matrix)
+                                    flagColumn = False
+                                    flagRow = True
+                                    break
+                                else:
+                                    flagRow = False
+                else:
+                    contador += 1
+                    
+            dimensions = matrix.shape
+            rows = np.arange(dimensions[0])
+            columns = np.arange(dimensions[1])
+
+            if (flagColumn == False):
+                for i in columns:
+                    if (flagColumn == False):
+                        for j in columns:
+                            if (set(matrix[:, i]) != set(matrix[:, j])):
+                                c = np.greater(matrix[:, i], matrix[:, j])
+                                all_are_true = all(x == True for x in c)
+                                print(matrix[:, i], "no elimino  a ", matrix[:, j])
+
+                                if all_are_true:
+                                    print(matrix[:, i]," elimino ", matrix[:, j])
+
+                                    matrix = np.delete(matrix, (i), axis=1)
+                                    print("-----------------")
+                                    print("se elimino la columna: ", i+1)
+                                    print(matrix)
+                                    flagRow = False
+                                    flagColumn = True
+                                    break
+                                else:
+                                    flagColumn = False
+                else:
+                    contador += 1
 
 
-        if (contador > x):
-            flagCicle = True
+            print(contador)
+            print(flagCicle)
+            print(matrix)
+            print("---------------")
 
-        if (np.shape(matrix) != (2,2)):
-            return -1
+            if (contador > x):
+                flagCicle = True
 
+            if (np.shape(matrix) != (2,2) and contador > x):
+                return -1
+
+
+    print('sali del ciclo')
     return matrix
 
 

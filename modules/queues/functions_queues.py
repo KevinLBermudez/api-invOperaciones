@@ -56,8 +56,8 @@ class Service:
         #for n >= n
         probabilityNorMore = 1 - probabilityNorLess
 
-        return {"n <= n": probabilityNorLess,
-                "n >= n": probabilityNorMore,
+        return {"nNorLess": probabilityNorLess,
+                "nNorMor": probabilityNorMore,
                 "n": probabilityPn}
 
 
@@ -109,8 +109,8 @@ class VariousService(Service):
         probabilityNorLess =  result
         probabilityNorMore = 1 - probabilityNorLess
 
-        return {"n <= n": probabilityNorLess,
-                "n >= n": probabilityNorMore,
+        return {"nNorLess": probabilityNorLess,
+                "nNorMor": probabilityNorMore,
                 "n": probabilityPn}
 
 
