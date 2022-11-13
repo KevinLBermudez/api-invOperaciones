@@ -24,7 +24,7 @@ def get_teory(data):
         "maximoPorColumna": maxiumByColumn.tolist(),
         "puntoDeSilla": chairPoint,
         # "matrixProbabilidades" : matrixProbability.tolist(),
-        "matrixProbabilidades": None if matrixProbability is None else matrixProbability,
+        "matrixProbabilidades": None if matrixProbability is None else matrixProbability.tolist(),
         #"ecuaciones": equations
         "ecuaciones": None if equations is None else equations
 
