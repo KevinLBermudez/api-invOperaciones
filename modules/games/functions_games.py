@@ -17,13 +17,15 @@ def maxColumn(matrix):
 def chairPoint(row,column):
 
     chairPoints = []
+    indexes = []
 
     for i in row:
         for j in column:
             if i == j:
-                chairPoints.append([i, row.tolist().index(i), column.tolist().index(j)])
-                
-    return chairPoints
+                chairPoints.append([i])
+                indexes.append([row.tolist().index(i), column.tolist().index(j)])
+
+    return [chairPoints, indexes]
 
 
 def matrixProbability(matrix):
