@@ -40,8 +40,10 @@ def get_teory(alternatives, probabilities, dependsProbabilities):
     evidence_with_fail_percent = decisions.evidences(alternatives, tails[1])
 
     veod = decisions.evidence(roots[0], roots[1], evidence_with_success_percent.max(), evidence_with_fail_percent.max())
+    
     print(veod, awaited_value, vea)
-    efficiency = abs(veod - awaited_value) / vea 
+    
+    efficiency =  abs(veod - awaited_value) / vea  if vea != 0 else 0
 
     ive = veod-evidences.max()
 

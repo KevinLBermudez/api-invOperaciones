@@ -22,7 +22,7 @@ def chairPoint(row,column):
         for j in column:
             if i == j:
                 chairPoints.append([i, row.tolist().index(i), column.tolist().index(j)])
-
+                
     return chairPoints
 
 
@@ -33,9 +33,9 @@ def matrixProbability(matrix):
     flagCicle = False
     contador = 0 
     x = 5
-    
-    print(matrix)
 
+    copyMatrix = matrix.copy()
+    
     while flagCicle == False:
 
             dimensions = matrix.shape
@@ -50,15 +50,10 @@ def matrixProbability(matrix):
                                 c = np.less_equal(matrix[i, ], matrix[j, ])
                                 all_are_true = all(x == True for x in c)
 
-                                # print(matrix[j, ], "no elimino  a ", matrix[i, ])
 
                                 if all_are_true:
-                                    # print(matrix[j, ], "elimino a ",matrix[i, ])
 
                                     matrix = np.delete(matrix, (i), axis=0)
-                                    # print("-----------------")
-                                    # print("se elimino la fila: ", i+1)
-                                    # print(matrix)
                                     flagColumn = False
                                     flagRow = True
                                     break
@@ -78,15 +73,11 @@ def matrixProbability(matrix):
                             if (set(matrix[:, i]) != set(matrix[:, j])):
                                 c = np.greater(matrix[:, i], matrix[:, j])
                                 all_are_true = all(x == True for x in c)
-                                # print(matrix[:, i], "no elimino  a ", matrix[:, j])
 
                                 if all_are_true:
-                                    # print(matrix[:, i]," elimino ", matrix[:, j])
 
                                     matrix = np.delete(matrix, (i), axis=1)
-                                    # print("-----------------")
-                                    # print("se elimino la columna: ", i+1)
-                                    # print(matrix)
+                                    
                                     flagRow = False
                                     flagColumn = True
                                     break
@@ -95,21 +86,22 @@ def matrixProbability(matrix):
                 else:
                     contador += 1
 
-
-            # print(contador)
-            # print(flagCicle)
-            # print(matrix)
-            # print("---------------")
-
             if (contador > x):
                 flagCicle = True
 
             if (np.shape(matrix) != (2,2) and contador > x):
                 return -1
 
+    listIndixes = []
 
-    print('sali del ciclo')
-    return matrix
+    for i in range(0, np.shape(copyMatrix)[0]):
+        for j in range(0, np.shape(copyMatrix)[1]):
+            if (copyMatrix[i, j] == matrix[0, 0] or copyMatrix[i, j] == matrix[0, 1] or copyMatrix[i, j] == matrix[1, 0] or copyMatrix[i, j] == matrix[1, 1]):
+
+                listIndixes.append([i, j])
+    
+    
+    return [matrix,listIndixes]
 
 
 def equations(matrix):
