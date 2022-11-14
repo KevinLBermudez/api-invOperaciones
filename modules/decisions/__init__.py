@@ -19,7 +19,6 @@ def get_teory(alternatives, probabilities, dependsProbabilities):
     vea = awaited_value - evidences.max()
 
 
-
     evidences_with_max_regret = decisions.evidences(max_regret, probabilities)
 
     probability_success = decisions.evidence(probabilities[0], probabilities[1], dependsProbabilities[0, 0], dependsProbabilities[1, 0])
@@ -41,7 +40,7 @@ def get_teory(alternatives, probabilities, dependsProbabilities):
     evidence_with_fail_percent = decisions.evidences(alternatives, tails[1])
 
     veod = decisions.evidence(roots[0], roots[1], evidence_with_success_percent.max(), evidence_with_fail_percent.max())
-
+    print(veod, awaited_value, vea)
     efficiency = abs(veod - awaited_value) / vea 
 
     ive = veod-evidences.max()
@@ -52,7 +51,23 @@ def get_teory(alternatives, probabilities, dependsProbabilities):
 
     for alt in alternatives:
         chart_points.append(decisions.get_point(alt[0], alt[1]))
-        
+
+    intersections_points = []
+    
+    position = 0
+    internalPosition = 0
+
+    for alt in alternatives:
+        for nextAlt in alternatives:
+            if position < internalPosition:
+                points = decisions.get_intersections(alt[0], alt[1], nextAlt[0], nextAlt[1])
+                if(points[0] != 0 or points[1] != 0):
+                    intersections_points.append([points])
+
+            internalPosition = internalPosition + 1
+        position = position + 1 
+        internalPosition = 0
+
     return {
         "optimista": opt.tolist(),
         "conservador": cons.tolist(),
@@ -70,5 +85,6 @@ def get_teory(alternatives, probabilities, dependsProbabilities):
         "veod": veod,
         "eficiencia": efficiency,
         "incrento_valor_esperado":ive,
-        "puntos": chart_points
+        "puntos": chart_points,
+        "intersecciones": intersections_points
     }
