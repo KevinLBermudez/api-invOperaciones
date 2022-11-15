@@ -19,7 +19,7 @@ def get_teory(data):
 
         if(type(matrixProbability) != int):
             equations = games.equations(matrixProbability)
-            indixes = resultsMatrixProbability[1]
+            indixes = resultsMatrixProbability[1].tolist()
         else:
             matrixProbability = None
             indixes = None

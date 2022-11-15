@@ -72,51 +72,65 @@ class VariousService(Service):
 
     def p0VariousService(self):
 
-        summation = 0
+        try:
 
-        for i in range(self.numberServices):
-            summation += (self.medLambda/self.undServiceTime)**i/math.factorial(i)
+            summation = 0
 
-        result = 1/(summation + ((self.medLambda/self.undServiceTime)**self.numberServices/math.factorial(self.numberServices))*(1/(1-(self.medLambda/(self.numberServices*self.undServiceTime)))))
-        
-        return result
+            for i in range(self.numberServices):
+                summation += (self.medLambda/self.undServiceTime)**i/math.factorial(i)
+
+            result = 1/(summation + ((self.medLambda/self.undServiceTime)**self.numberServices/math.factorial(self.numberServices))*(1/(1-(self.medLambda/(self.numberServices*self.undServiceTime)))))
+            
+            return result
+        except Exception as e:
+            return Exception(e)
     
     def lqVariousService(self, p0):
 
-        result = ((((self.medLambda/self.undServiceTime)**self.numberServices) * self.medLambda * self.undServiceTime) /((math.factorial(self.numberServices - 1) * (self.numberServices * self.undServiceTime - self.medLambda)**2 )))*p0
+        try:
+            result = ((((self.medLambda/self.undServiceTime)**self.numberServices) * self.medLambda * self.undServiceTime) /((math.factorial(self.numberServices - 1) * (self.numberServices * self.undServiceTime - self.medLambda)**2 )))*p0
 
-        return result
+            return result
+        except Exception as e:
+            return Exception(e)
+
 
     def pwVariousService(self, p0):
 
-        result = (1/math.factorial(self.numberServices)) * ((self.medLambda/self.undServiceTime)**self.numberServices) * ((self.undServiceTime*self.numberServices)/((self.undServiceTime*self.numberServices)-self.medLambda)) * p0
+        try:
+            result = (1/math.factorial(self.numberServices)) * ((self.medLambda/self.undServiceTime)**self.numberServices) * ((self.undServiceTime*self.numberServices)/((self.undServiceTime*self.numberServices)-self.medLambda)) * p0
 
-        return result
+            return result
+
+        except Exception as e:
+            return Exception(e)
 
     def pnVariousService(self,n):
+        try:
+            p0 = self.p0VariousService()
+            result = 0
 
-        p0 = self.p0VariousService()
-        result = 0
+            probabilityPn = (((self.medLambda/self.undServiceTime)**n)/math.factorial(n)) * p0
 
-        probabilityPn = (((self.medLambda/self.undServiceTime)**n)/math.factorial(n)) * p0
+            for i in range(0,n):
+                if i >= self.numberServices:
+                    result += (((self.medLambda/self.undServiceTime)**i)/(math.factorial(self.numberServices) * self.numberServices**(i-self.numberServices)))*p0
+                else:
+                    result += (((self.medLambda/self.undServiceTime) ** i)/ math.factorial(i) )* p0
+                    
+            probabilityNorLess =  result
+            probabilityNorMore = 1 - probabilityNorLess
 
-        for i in range(0,n):
-            if i >= self.numberServices:
-                result += (((self.medLambda/self.undServiceTime)**i)/(math.factorial(self.numberServices) * self.numberServices**(i-self.numberServices)))*p0
-            else:
-                result += (((self.medLambda/self.undServiceTime) ** i)/ math.factorial(i) )* p0
-                
-        probabilityNorLess =  result
-        probabilityNorMore = 1 - probabilityNorLess
+            return {"nNorLess": probabilityNorLess,
+                    "nNorMor": probabilityNorMore,
+                    "n": probabilityPn}
 
-        return {"nNorLess": probabilityNorLess,
-                "nNorMor": probabilityNorMore,
-                "n": probabilityPn}
-
+        except Exception as e:
+            return Exception(e)
 
 #for economic analysis
 
-class EconomicAnalysis():
+class EconomicAnalysis(VariousService,Service):
     
     def __init__(self,data) -> None:
         self.costAverageByService = data.costAverageByService
@@ -124,18 +138,55 @@ class EconomicAnalysis():
         self.numberServices = data.numberServices
         self.medLambda = data.averageArrivals
         self.undServiceTime = data.averageServices
+        self.costAverageByPerson = data.costAverageByPerson
+        Service.__init__(self, data)
+        VariousService.__init__(self, data)
 
     def costDailyOneService(self):
-        
-        result = self.costAverageByService * self.hoursServiceByDay * self.medLambda
+        try:
 
-        return result
+            result = self.costAverageByService * self.hoursServiceByDay * self.medLambda
+
+            return result
+
+        except Exception as e:
+            return Exception(e)
 
     def costDailyVariousService(self):
-        
-        result = self.costAverageByService * self.hoursServiceByDay * self.medLambda * self.numberServices
-        
-        return result
+        try:
 
+            result = self.costAverageByService * self.hoursServiceByDay * self.medLambda * self.numberServices
+            
+            return result
+
+        except Exception as e:
+            return Exception(e)
+
+    def costTotalOneService(self):
+        try:
+
+            lq = self.lq()
+            l = self.l(lq)
+            result = self.costAverageByPerson * l  +  self.costAverageByService * self.numberServices
+            return result
+        except Exception as e:
+            return Exception(e)
+
+
+    def costTotalVariousService(self):
+        
+        try:
+
+            p0 = self.p0VariousService()
+            lq = self.lqVariousService(p0)
+            l = self.l(lq)
+            result = self.costAverageByPerson * l + self.costAverageByService * self.numberServices
+            
+            print(result)
+
+            return result
+
+        except Exception as e:
+            return Exception(e)
     
     

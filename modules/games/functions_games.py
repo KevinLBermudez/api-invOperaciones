@@ -3,6 +3,7 @@ import numpy as np
 import sympy as sym
 from sympy import  Symbol
 from sympy import *
+from sympy.solvers.diophantine.diophantine import length
 
 def minRow(matrix):
     miniumByRow = np.amin(matrix, axis=1)
@@ -36,14 +37,19 @@ def matrixProbability(matrix):
     contador = 0 
     x = 5
 
-    copyMatrix = matrix.copy()
-    
+    matrixCopy = np.zeros(shape=(np.shape(matrix)[0], np.shape(matrix)[1],2))
+
+    for i in range(0,np.shape(matrix)[0]):
+        for j in range(0,np.shape(matrix)[1]):
+            matrixCopy[i,j] = np.array([i,j])
+
     while flagCicle == False:
 
             dimensions = matrix.shape
             rows = np.arange(dimensions[0])
             columns = np.arange(dimensions[1])
 
+            #delete rows
             if (flagRow == False):
                 for i in rows:
                     if (flagRow == False):
@@ -52,10 +58,11 @@ def matrixProbability(matrix):
                                 c = np.less_equal(matrix[i, ], matrix[j, ])
                                 all_are_true = all(x == True for x in c)
 
-
                                 if all_are_true:
 
                                     matrix = np.delete(matrix, (i), axis=0)
+                                    matrixCopy = np.delete(matrixCopy, (i), axis=0)
+
                                     flagColumn = False
                                     flagRow = True
                                     break
@@ -68,6 +75,8 @@ def matrixProbability(matrix):
             rows = np.arange(dimensions[0])
             columns = np.arange(dimensions[1])
 
+
+            #delete columns
             if (flagColumn == False):
                 for i in columns:
                     if (flagColumn == False):
@@ -79,7 +88,9 @@ def matrixProbability(matrix):
                                 if all_are_true:
 
                                     matrix = np.delete(matrix, (i), axis=1)
-                                    
+                                    matrixCopy = np.delete(matrixCopy, (i), axis=1)
+
+
                                     flagRow = False
                                     flagColumn = True
                                     break
@@ -93,17 +104,8 @@ def matrixProbability(matrix):
 
             if (np.shape(matrix) != (2,2) and contador > x):
                 return -1
-
-    listIndixes = []
-
-    for i in range(0, np.shape(copyMatrix)[0]):
-        for j in range(0, np.shape(copyMatrix)[1]):
-            if (copyMatrix[i, j] == matrix[0, 0] or copyMatrix[i, j] == matrix[0, 1] or copyMatrix[i, j] == matrix[1, 0] or copyMatrix[i, j] == matrix[1, 1]):
-
-                listIndixes.append([i, j])
-    
-    
-    return [matrix,listIndixes]
+            
+    return [matrix, np.reshape(matrixCopy,(4,2))]
 
 
 def equations(matrix):
@@ -131,3 +133,12 @@ def equations(matrix):
             "probabilidad1": str(p1[0]),
             "probabilidad2": str(p2[0])}
 
+
+
+def foundIndex( i, list ):
+
+    if( i in list ):
+
+        return foundIndex(i + len(list), list)
+
+    return i

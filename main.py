@@ -43,7 +43,6 @@ def get_queues(body: BodyQueues):
 
     results = queues.get_teory(body);
 
-
     if( "error" in results):
 
         raise HTTPException(status_code=400, detail=results["error"])

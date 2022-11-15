@@ -27,3 +27,4 @@ class BodyEconomicAnalysis(BaseModel):
     numberServices: int
     averageArrivals: float = 0
     averageServices: float = 0
+    costAverageByPerson : float = 0
